@@ -54,7 +54,10 @@ export default {
                email: this.email,
                password: this.password
             }
+         }).then(({data}) => {
+            this.$router.push('/home')
          })
+
       }
    }
 }

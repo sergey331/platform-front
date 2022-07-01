@@ -40,13 +40,17 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://127.0.0.1:8000',
+    baseURL: 'http://127.0.0.1:8000/api',
+  },
+  toast: {
+    position: 'top-center',
   },
 
   auth: {
@@ -58,7 +62,8 @@ export default {
           login: {url:"/login",method: "post"},
           register: {url:"/register",method: "post"},
           logout: {url:"/logout",method: "post"},
-          user: {url:"/profile",method: "get"}
+          user: {url:"/profile",method: "get"},
+          refresh: {url:"/refresh",method: "get"},
         },
         token: {
           property: 'access_token',
