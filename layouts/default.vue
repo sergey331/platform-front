@@ -10,11 +10,7 @@
           class="navbar-item"
           href="/"
         >
-          <img
-            src="~assets/buefy.png"
-            alt="Buefy"
-            height="28"
-          >
+         Platform
         </a>
 
         <div class="navbar-burger">
@@ -45,7 +41,7 @@
         </ul>
       </aside>
 
-      <div class="container column is-10">
+      <div class="container">
         <Nuxt />
       </div>
     </section>
@@ -64,9 +60,14 @@ export default {
           to: { name: 'index' }
         },
         {
-          title: 'Inspire',
-          icon: 'lightbulb',
-          to: { name: 'inspire' }
+          title: 'Register',
+          icon: 'login',
+          to: { name: 'register' }
+        },
+        {
+          title: 'Login',
+          icon: 'login',
+          to: { name: 'login' }
         }
       ]
     }
