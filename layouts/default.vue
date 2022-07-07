@@ -62,7 +62,7 @@ export default {
         {
           title: 'Register',
           icon: 'login',
-          to: { name: 'register' }
+          to: '/register'
         },
         {
           title: 'Login',
@@ -71,6 +71,11 @@ export default {
         }
       ]
     }
-  }
+  },
+   mounted() {
+     if (this.$auth.user) {
+        this.$router.push('/home')
+     }
+   }
 }
 </script>

@@ -8,8 +8,6 @@
             <b-field label="Password">
                <b-input type="password"v-model="password" password-reveal></b-input>
             </b-field>
-
-
             <b-button type="is-primary" @click="signIn">Sign in</b-button>
          </form>
       </div>
@@ -19,6 +17,7 @@
 <script>
 export default {
    name: "Login",
+   auth: false,
    data() {
       return {
          email: "",
@@ -31,7 +30,9 @@ export default {
             email: this.email,
             password: this.password
             }})
-         this.$router.push('/home')
+             .then(response => {
+                this.$router.push('/home')
+             })
       }
    }
 }

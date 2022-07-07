@@ -7,7 +7,7 @@
          <div class="workspace" v-if="getWorkspace.length" v-for="workspace in getWorkspace" :key="workspace.id">
             <div class="workspace_name"> {{ workspace.name }}</div>
             <div class="workspace_action">
-               <b-button>Open</b-button>
+               <nuxt-link :to="'/workspace/'+workspace.id" class="button">Open</nuxt-link>
                <b-button @click="openModal(workspace)">Edit</b-button>
             </div>
          </div>
@@ -21,8 +21,12 @@ import WorkspaceModal from "@/components/WorkspaceModal";
 
 export default {
    layout: 'AppLayout',
+   head() {
+      return {
+         title: "Workspace",
+      };
+   },
    name: "Home",
-   middleware: ['auth'],
    computed: {
       ...mapGetters({
          getWorkspace: 'workspace/getWorkspace'
@@ -36,9 +40,6 @@ export default {
    beforeCreate() {
       this.$store.dispatch('workspace/getWorkspaces');
    },
-   mounted() {
-      console.log(this.getWorkspace)
-   },
    methods: {
       openModal(workspace) {
          this.$buefy.modal.open({
@@ -51,7 +52,6 @@ export default {
                   this.$store.dispatch('workspace/updateWorkspaces',data)
                }
             }
-
          })
       }
    }

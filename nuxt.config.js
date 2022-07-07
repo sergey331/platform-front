@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'platform-front',
+    title: 'platform',
     htmlAttrs: {
       lang: 'en'
     },
@@ -14,6 +14,10 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  router: {
+    middleware: ['auth']
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -37,7 +41,11 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/toast',
+    '@nuxtjs/moment',
   ],
+  moment: {
+    locales: ['de']
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -53,6 +61,7 @@ export default {
           login: {url: '/login', method: 'post'},
           user: {url: '/profile', method: 'get'},
           refresh: {url: '/refresh', method: 'post'},
+          logout: {url: '/logout', method: 'post'},
         },
         token: {
           property: 'access_token',
