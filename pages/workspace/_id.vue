@@ -1,7 +1,18 @@
 <template>
    <div class="section">
       <div v-if="work" class="box">
-         <h1 >{{ work.name }}</h1>
+         <div class="columns">
+            <div class="column">
+               <h1 >{{ work.name }}</h1>
+            </div>
+            <div class="column">
+               <b-button @click="openInviteModal">
+                  Invite User
+               </b-button>
+
+            </div>
+         </div>
+
       </div>
       <div v-else class="loading">
          <img  src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="">
@@ -10,6 +21,7 @@
 </template>
 
 <script>
+import SearchEmailModal from "@/components/SearchEmailModal";
 export default {
    layout: 'AppLayout',
    name: "workspace-id",
@@ -26,6 +38,17 @@ export default {
    computed: {
       work(){
          return this.$store.getters["workspace/getWorkspac"](this.$route.params.id);
+      }
+   },
+   methods: {
+      openInviteModal() {
+         this.$buefy.modal.open({
+            component: SearchEmailModal,
+            props: {
+               workspace_id: this.id,
+               axios: this.$axios
+            }
+         })
       }
    }
 

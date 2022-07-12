@@ -4,11 +4,18 @@
          <div class="workspace_head">
             <NuxtLink to="/workspace/create"> Create new workspace</NuxtLink>
          </div>
-         <div class="workspace" v-if="getWorkspace.length" v-for="workspace in getWorkspace" :key="workspace.id">
+         <div class="workspace" v-if="getWorkspace.workspaces.length" v-for="workspace in getWorkspace.workspaces" :key="workspace.id">
             <div class="workspace_name"> {{ workspace.name }}</div>
             <div class="workspace_action">
                <nuxt-link :to="'/workspace/'+workspace.id" class="button">Open</nuxt-link>
                <b-button @click="openModal(workspace)">Edit</b-button>
+            </div>
+         </div>
+         <div class="workspace" v-if="getWorkspace.invites.length" v-for="invite in getWorkspace.invites" :key="invite.id">
+            <div class="workspace_name"> {{ invite.workspace.name }}</div>
+            <div class="workspace_action">
+               <b-button @click="accept(invite)" type="is-success">Accept</b-button>
+               <b-button @click="reject(invite)" type="is-danger">Reject</b-button>
             </div>
          </div>
       </div>
@@ -53,7 +60,13 @@ export default {
                }
             }
          })
-      }
+      },
+      accept(item) {
+
+      },
+      reject(item) {
+
+      },
    }
 }
 </script>

@@ -1,10 +1,14 @@
 export const state = () => ({
-    workspaces: []
+    workspaces: [],
+    inviteWorkspaces: []
 })
 
 export const getters = {
     getWorkspace(state) {
-        return state.workspaces
+        return {
+            workspaces: state.workspaces,
+            invites: state.inviteWorkspaces
+        }
     },
     getWorkspac: (state) => (id) => {
         let obj = state.workspaces.filter(e => {
@@ -15,8 +19,11 @@ export const getters = {
 }
 
 export const mutations = {
-    changeWorkspaces(state, workspaces) {
-        state.workspaces = workspaces
+    changeWorkspaces(state, data) {
+        state.workspaces = data.workspaces;
+        if (data.inviteWorkspace) {
+            state.inviteWorkspaces = data.inviteWorkspace
+        }
     }
 }
 
@@ -24,7 +31,7 @@ export const actions = {
     async getWorkspaces(context) {
         await this.$axios.$get('/workspaces')
             .then(response => {
-                context.commit('changeWorkspaces', response.workspaces)
+                context.commit('changeWorkspaces', response)
             })
     },
     async createWorkspaces(context, name) {
@@ -34,7 +41,7 @@ export const actions = {
             .then(response => {
                 if (response.ok) {
                     this.$toast.success('Workspace created successfully').goAway(6000);
-                    context.commit('changeWorkspaces', response.workspaces)
+                    context.commit('changeWorkspaces', response)
                 }
             })
     },
@@ -44,7 +51,7 @@ export const actions = {
         }).then(response => {
             if (response.ok) {
                 this.$toast.success('Workspace updated successfully').goAway(6000);
-                context.commit('changeWorkspaces', response.workspaces)
+                context.commit('changeWorkspaces', response)
             }
         })
     }
