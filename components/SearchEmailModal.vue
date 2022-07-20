@@ -79,7 +79,13 @@ export default {
             workspace_id: this.workspace_id,
             emails: this.emails
          }).then(response => {
-            console.log(response)
+            if (response.ok) {
+               this.$emit('done',{
+                  errors: response.errors,
+                  success: response.success,
+               })
+               this.$emit('close')
+            }
          })
 
       },

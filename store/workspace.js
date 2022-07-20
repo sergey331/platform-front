@@ -1,20 +1,37 @@
 export const state = () => ({
     workspaces: [],
-    inviteWorkspaces: []
+    inviteWorkspaces: [],
+    joinWorkspaces: [],
+
 })
 
 export const getters = {
     getWorkspace(state) {
         return {
             workspaces: state.workspaces,
+            joinWorkspaces: state.joinWorkspaces,
             invites: state.inviteWorkspaces
         }
     },
     getWorkspac: (state) => (id) => {
-        let obj = state.workspaces.filter(e => {
+        let workspace = state.workspaces.filter(e => {
             return e.id === +id
         })
-        return obj[0]
+        if (workspace.length) {
+            return {
+                role: 'owner',
+                workspace: workspace[0]
+            }
+        }
+        let joinWorkspaces = state.joinWorkspaces.filter(e => {
+            return e.id === +id
+        })
+        if (joinWorkspaces.length) {
+            return {
+                role: 'joined',
+                workspace: joinWorkspaces[0]
+            }
+        }
     }
 }
 
@@ -23,6 +40,9 @@ export const mutations = {
         state.workspaces = data.workspaces;
         if (data.inviteWorkspace) {
             state.inviteWorkspaces = data.inviteWorkspace
+        }
+        if (data.joinWorkspace) {
+            state.joinWorkspaces = data.joinWorkspace
         }
     }
 }

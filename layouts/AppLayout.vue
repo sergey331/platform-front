@@ -50,6 +50,7 @@
                   </NuxtLink>
                </li>
             </ul>
+            {{ members }}
          </aside>
 
          <div class="container">
@@ -60,12 +61,13 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
 
    name: "AppLayout",
    data() {
       return {
-
          items: [
             {
                title: 'Home',
@@ -73,8 +75,14 @@ export default {
                to: '/home'
             }
          ],
-         user: this.$auth.user
+         user: this.$auth.user,
       }
+   },
+   computed: {
+     ...mapGetters({
+        members: "members/getMembers",
+        workspace_id: "members/getWorkspaceId"
+     })
    },
    methods: {
       logout() {
@@ -82,10 +90,18 @@ export default {
       }
    },
    mounted() {
-
       if (!this.user) {
          this.$router.push('/login')
       }
+   },
+   watch: {
+     workspace_id(id) {
+        if (id !== '') {
+           this.$store.dispatch('members/membersAction',id);
+        } else {
+           this.members = [];
+        }
+     }
    },
    created() {
 

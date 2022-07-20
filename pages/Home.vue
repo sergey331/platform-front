@@ -11,11 +11,17 @@
                <b-button @click="openModal(workspace)">Edit</b-button>
             </div>
          </div>
+         <div class="workspace" v-if="getWorkspace.joinWorkspaces.length" v-for="workspace in getWorkspace.joinWorkspaces" :key="workspace.id">
+            <div class="workspace_name"> {{ workspace.name }}</div>
+            <div class="workspace_action">
+               <nuxt-link :to="'/workspace/'+workspace.id" class="button">Open</nuxt-link>
+            </div>
+         </div>
          <div class="workspace" v-if="getWorkspace.invites.length" v-for="invite in getWorkspace.invites" :key="invite.id">
             <div class="workspace_name"> {{ invite.workspace.name }}</div>
             <div class="workspace_action">
-               <b-button @click="accept(invite)" type="is-success">Accept</b-button>
-               <b-button @click="reject(invite)" type="is-danger">Reject</b-button>
+               <b-button @click="accept(invite.workspace_id)" type="is-success">Accept</b-button>
+               <b-button @click="reject(invite.workspace_id)" type="is-danger">Reject</b-button>
             </div>
          </div>
       </div>
@@ -39,6 +45,9 @@ export default {
          getWorkspace: 'workspace/getWorkspace'
       })
    },
+   mounted() {
+      this.$store.commit('members/changeWorkspaceId','')
+   },
    data() {
       return {
          workspaces: []
@@ -61,8 +70,14 @@ export default {
             }
          })
       },
-      accept(item) {
-
+      accept(id) {
+         this.$axios.$post('/invite-accept',{
+            "workspace_id": id
+         }).then(response => {
+            if (response.ok) {
+               this.$toast.success(response.message).goAway(6000);
+            }
+         })
       },
       reject(item) {
 

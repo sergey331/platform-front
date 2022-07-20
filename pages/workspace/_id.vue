@@ -3,9 +3,9 @@
       <div v-if="work" class="box">
          <div class="columns">
             <div class="column">
-               <h1 >{{ work.name }}</h1>
-            </div>
-            <div class="column">
+               <h1 >{{ work.workspace.name }}</h1>
+            </div>`
+            <div class="column" v-if="work.role === 'owner' ">
                <b-button @click="openInviteModal">
                   Invite User
                </b-button>
@@ -31,6 +31,7 @@ export default {
       }
    },
    mounted() {
+      this.$store.commit('members/changeWorkspaceId',this.id)
       if (!this.work) {
          this.$store.dispatch('workspace/getWorkspaces');
       }
@@ -47,6 +48,20 @@ export default {
             props: {
                workspace_id: this.id,
                axios: this.$axios
+            },
+            events: {
+               done: (data) => {
+                  if (data.errors.length) {
+                     data.errors.forEach(error => {
+                        this.$toast.error(error).goAway(6000);
+                     })
+                  }
+                  if (data.success.length) {
+                     data.success.forEach(suc => {
+                        this.$toast.success(suc).goAway(6000);
+                     })
+                  }
+               }
             }
          })
       }
